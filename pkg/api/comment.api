@@ -1,0 +1,77 @@
+syntax = "v1"
+
+info(
+	author: "skyenought"
+	desc: "评论 相关的接口"
+)
+import "base.api"
+
+type (
+	// 评论操作
+	CommentActionReq {
+		UserID      int64  `form:"user_id"`
+		Token       string `form:"token"`
+		VideoID     int64  `form:"video_id"`
+		ActionType  int32  `form:"action_type,options=1|2"`
+		CommentText string `form:"comment_text,optional"`
+		CommentID   int64  `form:"comment_id,optional"`
+	}
+
+	CommentActionResp {
+		StatusCode int32   `json:"status_code"`
+		StatusMsg  string  `json:"status_msg"`
+		Comment    Comment `json:"comment"`
+	}
+
+	// 评论列表, 按发布时间倒序
+	CommentListReq {
+		Token   string `form:"token"`
+		VideoID int64  `form:"video_id"`
+	}
+
+	CommentListResp {
+		StatusCode  int32     `json:"status_code"`
+		StatusMsg   string    `json:"status_msg"`
+		CommentList []Comment `json:"comment_list"`
+	}
+)
+
+type (
+	// 点赞操作
+	FavoriteActionReq {
+		UserID     int64  `form:"user_id"`
+		Token      string `form:"token"`
+		VideoID    int64  `form:"video_id"`
+		ActionType int32  `form:"action_type,options=1|2"`
+	}
+
+	FavoriteActionResp {
+		StatusCode int32  `json:"status_code"`
+		StatusMsg  string `json:"status_msg"`
+	}
+	//登录用户的所有点赞视频
+	FavoriteListReq {
+		UserID int64  `form:"user_id"`
+		Token  string `form:"token"`
+	}
+
+	FavoriteListResp {
+		StatusCode int32   `json:"status_code"`
+		StatusMsg  string  `json:"status_msg"`
+		VideoList  []Video `json:"video_list"`
+	}
+)
+
+@server(
+	group: comment
+	prefix: /douyin/comment
+)
+service comment {
+	@doc "评论操作"
+	@handler CommentAction
+	post /action (CommentActionReq) returns (CommentActionResp)
+	
+	@doc "评论列表"
+	@handler CommentList
+	get /list (CommentListReq) returns (CommentListResp)
+}

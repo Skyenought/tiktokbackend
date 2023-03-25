@@ -1,0 +1,19 @@
+Name: user.rpc
+ListenOn: 0.0.0.0:8888
+Mode: dev
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: user.rpc
+VideoRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: video.rpc
+Log:
+  ServiceName: user.rpc
+  Encoding: plain
+Mysql:
+  # Mysql DSN
+  # example:
+  DSN: root:root@tcp(127.0.0.1:3306)/tiktokbend?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai

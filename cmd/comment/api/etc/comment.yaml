@@ -1,0 +1,25 @@
+Name: comment.api
+Host: 0.0.0.0
+Port: 9006
+Log:
+  ServiceName: comment.api
+  Encoding: plain
+Auth:
+  Secret:
+  Expire:
+UserRpcConf:
+  Etcd:
+    Hosts:
+      - 0.0.0.0:2379
+    Key: user.rpc
+CommentRpcConf:
+  Etcd:
+    Hosts:
+      - 0.0.0.0:2379
+    Key: comment.rpc
+VideoRpcConf:
+  Etcd:
+    Hosts:
+      - 0.0.0.0:2379
+    Key: video.rpc
+

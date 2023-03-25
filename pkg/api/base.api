@@ -1,0 +1,43 @@
+syntax = "v1"
+
+type (
+    User {
+        ID int64 `json:"id"`
+        Name string `json:"name"`
+        FollowCount int32 `json:"follow_count"`
+        FollowerCount int32 `json:"follower_count"`
+        IsFollow bool `json:"is_follow"`
+        Avatar string `json:"avatar"`
+        BackgroundImage string `json:"background_image"`
+        Signature string `json:"signature"`
+        TotalFavorited string `json:"total_favorited"`
+        WorkCount int32 `json:"work_count"`
+        FavoriteCount int32 `json:"favorite_count"`
+    }
+
+    Video {
+        ID int64 `json:"id,optional"`
+        Author User `json:"author,optional"`
+        CoverUrl string `json:"cover_url,optional"`
+        PlayUrl string `json:"play_url,optional"`
+        FavoriteCount int32 `json:"favorite_count,optional"`
+        CommentCount int32 `json:"comment_count,optional"`
+        IsFavorite bool `json:"is_favorite,optional"`
+        Title string `json:"title,optional"`
+    }
+
+    Comment {
+        ID int64 `json:"id,optional"`
+        User User `json:"user,optional"`
+        Content string `json:"content,optional"`
+        CreateDate string `json:"create_date,optional"`
+    }
+
+    Msg {
+        ID int64 `json:"id"`
+        Content string `json:"content"`
+        ToUserID int64 `json:"to_user_id"`
+        FromUserID int64 `json:"from_user_id"`
+        CreateTime int64 `json:"create_time,omitempty"`
+    }
+)

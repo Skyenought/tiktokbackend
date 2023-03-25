@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package videorpc;
+
+option go_package = "./videorpc";
+
+message FavoriteActionReq {
+  int64 userID = 1;
+  int64 videoID = 2;
+  int32 actionType = 3;
+}
+
+message FavoriteActionResp {
+  int32 statusCode = 1;
+}
+
+message FavoriteVideoListReq {
+  int64 userID = 1;
+}
+
+message FavoriteVideoListResp {
+  int32 statusCode = 1;
+  repeated Video VideoList = 2;
+}
+
+message PublishActionReq {
+  int64 userID = 1;
+  string title = 2;
+}
+
+message PublishActionResp {
+  int32 statusCode = 1;
+}
+
+message PublishlistReq {
+  int64 userID = 1;
+}
+
+message PublishlistResp {
+  int32 statusCode = 1;
+  repeated Video videoList = 2;
+}
+
+message FeedReq {
+  int64 latestTime = 1;
+}
+
+message FeedResp {
+  int32 statusCode = 1;
+  repeated Video videoList = 2;
+  int64 nextTime = 3;
+}
+
+message Video {
+  int64 ID = 1;
+  int64 userID = 2;
+  string playURL = 3;
+  string coverURL = 4;
+  int32 favoriteCount = 5;
+  int32 commentCount = 6;
+  string title = 7;
+}
+
+message UpdateCommentCountReq {
+  int64 videoID = 1;
+  int32 actionType = 2;
+}
+
+message UpdateCommentCountResp {
+  int32 statusCode = 1;
+}
+
+service VideoService {
+  rpc FavoriteAction (FavoriteActionReq) returns (FavoriteActionResp);
+  rpc FavoriteVideoList (FavoriteVideoListReq) returns (FavoriteVideoListResp);
+  rpc PublishAction (PublishActionReq) returns (PublishActionResp);
+  rpc PublishList (PublishlistReq) returns (PublishlistResp);
+  rpc Feed(FeedReq) returns (FeedResp);
+  rpc UpdateCommentCount(UpdateCommentCountReq) returns (UpdateCommentCountResp);
+}

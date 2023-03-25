@@ -1,0 +1,36 @@
+Name: video.api
+Host: 0.0.0.0
+Port: 9004
+Mode: dev
+MaxBytes: 31457280
+
+Log:
+  ServiceName: video.api
+  Encoding: plain
+Auth:
+  Secret: # 自行配置
+  Expire:
+
+UserRpcConf:
+  Etcd:
+    Hosts:
+      - 0.0.0.0:2379
+    Key: user.rpc
+VideoRpcConf:
+  Etcd:
+    Hosts:
+      - 0.0.0.0:2379
+    Key: video.rpc
+
+Minio:
+  EndPoint:
+  BucketName: video-storage
+  AccessKeyID: minio
+  SecretAccessKey: minio
+  UploadPath:
+  UseSSL: false
+
+# 腾讯云 OSS
+Oss:
+  BucketURL:
+  ServiceURL:

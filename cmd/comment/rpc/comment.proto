@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package commentrpc;
+
+option go_package = "./commentrpc";
+
+service CommentService {
+  rpc CommentAction (CommentActionReq) returns (CommentActionResp);
+  rpc CommentList (CommentListReq) returns (CommentListResp);
+}
+
+message CommentActionReq {
+  int64 userID = 1;
+  int64 videoID = 2;
+  int32 actionType = 3;
+  string content = 4;
+  int64 commentID = 5;
+}
+
+message CommentActionResp {
+  int32 statusCode = 1;
+  Comment comment = 2;
+}
+
+message CommentListReq {
+  int64 videoID = 1;
+}
+
+message CommentListResp {
+  int32 statusCode = 1;
+  repeated Comment commentList = 2;
+}
+
+message Comment {
+  int64 ID = 1;
+  int64 userID = 2;
+  string content = 3;
+  string createDate = 4;
+}
+

@@ -1,0 +1,136 @@
+syntax = 'proto3';
+
+package userpc;
+option go_package = "./userpc";
+
+message LoginReq {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResp {
+  int32 statusCode = 1;
+  int64 userID = 2;
+}
+
+message RegisterReq {
+  string username = 1;
+  string password = 2;
+}
+
+message RegisterResp {
+  int32 statusCode = 1;
+  int64 userID = 2;
+}
+
+message UserInfoReq {
+  int64 userID = 1;
+  int64 fromUserID = 2;
+}
+
+message UserInfoResp {
+  int32 statusCode = 1;
+  User user = 2;
+}
+
+message RelationFollowlistReq {
+  int64 userID = 1;
+  int64 fromUserID = 2;
+}
+
+message RelationFollowlistResp {
+  int32 statusCode = 1;
+  repeated User userList = 2;
+}
+
+message RelationFanlistReq {
+  int64 userID = 1;
+  // 查询用户 ID
+  int64 fromUserID = 2;
+}
+
+message RelationFanlistResp {
+  int32 statusCode = 1;
+  repeated User userList = 2;
+}
+
+message RelationActionReq {
+  int64 userID = 1;
+  int64 fromUserID = 2;
+  int32 actionType = 3;
+}
+
+message RelationActionResp {
+  int32 statusCode = 1;
+}
+
+message User {
+  int64 ID = 1;
+  string name = 2;
+  int32 followCount = 3;
+  int32 followerCount = 4;
+  bool isFollow = 5;
+  string avatar = 6;
+  string backgroundImage = 7;
+  string signature = 8;
+  string totalFavorited = 9;
+  int32 workCount = 10;
+  int32 favoriteCount = 11;
+}
+
+message Msg {
+  int64 ID = 1;
+  string content = 2;
+  int64 createTime = 3;
+  int64 fromUserID = 4;
+  int64 toUserID = 5;
+}
+
+message MsgChatListReq {
+  int64 userID = 1;
+  int64 toUserID = 2;
+  int64 preMsgTime = 3;
+}
+
+message MsgChatListResp {
+  int32 statusCode = 1;
+  repeated Msg msgList = 2;
+}
+
+message MsgActionReq {
+  int64 userID = 1;
+  int64 toUserID = 2;
+  int32 actionType = 3;
+  string content = 4;
+}
+
+message MsgActionResp {
+  int32 statusCode = 1;
+}
+
+message UpdateCountReq {
+  int64 userID = 1;
+  int32 favoriteType = 2; // 1: 增加获赞数, 2: 减少获赞数
+  int32 videoType = 3; // 1: 增加视频数, 2: 减少视频数
+  int32 fanType = 4; // 1: 增加粉丝, 2: 减少粉丝
+  int32 followType = 5; // 1: 增加关注, 2: 减少关注
+}
+
+message UpdateCountResp {
+  int32 statusCode = 1;
+}
+
+service UserService {
+  rpc Login(LoginReq) returns (LoginResp);
+  rpc Register(RegisterReq) returns (RegisterResp);
+  rpc UserInfo(UserInfoReq) returns (UserInfoResp);
+  rpc UpdateCount(UpdateCountReq) returns (UpdateCountResp);
+
+  rpc RelationFollowlist(RelationFollowlistReq) returns (RelationFollowlistResp);
+  rpc RelationFanlist(RelationFanlistReq) returns (RelationFanlistResp);
+  rpc RelationAction(RelationActionReq) returns (RelationActionResp);
+
+  rpc MsgChatList(MsgChatListReq) returns (MsgChatListResp);
+  rpc MsgAction(MsgActionReq) returns (MsgActionResp);
+}
+

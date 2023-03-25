@@ -1,0 +1,113 @@
+syntax = "v1"
+
+info(
+	author: "skyenought"
+	desc: "接口合集"
+)
+import "base.api"
+
+type (
+	// 投稿
+	PublishActionReq {
+		Token string `form:"token"`
+		Title string `form:"title"`
+	}
+
+	PublishActionResp {
+		StatusCode int32  `json:"status_code"`
+		StatusMsg  string `json:"status_msg"`
+	}
+
+	// 发布列表
+	PublishlistReq {
+		Token  string `form:"token"`
+		UserID int64  `form:"user_id"`
+	}
+
+	PublishlistResp {
+		StatusCode int32   `json:"status_code"`
+		StatusMsg  string  `json:"status_msg"`
+		VideoList  []Video `json:"video_list"`
+	}
+)
+
+@server(
+	group: publish
+	prefix: /douyin/publish
+)
+service videoapi {
+	@doc "发布列表"
+	@handler Publishlist
+	get /list (PublishlistReq) returns (PublishlistResp)
+}
+
+@server(
+	group: publish
+	prefix: /douyin/publish
+)
+service videoapi {
+	@doc "投稿"
+	@handler PublishAction
+	post /action (PublishActionReq) returns (PublishActionResp)
+}
+
+type (
+	// 不限制登录状态，返回按投稿时间倒序的视频列表，视频数由服务端控制，单次最多30个
+	FeedReq {
+		LatestTime int64  `form:"latest_time,optional"`
+		Token      string `form:"token,optional"`
+	}
+
+	FeedResp {
+		StatusCode int32   `json:"status_code"`
+		StatusMsg  string  `json:"status_msg"`
+		NextTime   int64   `json:"next_time"`
+		VideoList  []Video `json:"video_list"`
+	}
+)
+
+service videoapi {
+	@doc "获取视频列表"
+	@handler Feed
+	get /douyin/feed (FeedReq) returns (FeedResp)
+}
+
+type (
+	// 点赞操作
+	FavoriteActionReq {
+		UserID     int64  `form:"user_id"`
+		Token      string `form:"token"`
+		VideoID    int64  `form:"video_id"`
+		ActionType int32  `form:"action_type,options=1|2"`
+	}
+
+	FavoriteActionResp {
+		StatusCode int32  `json:"status_code"`
+		StatusMsg  string `json:"status_msg"`
+	}
+	//登录用户的所有点赞视频
+	FavoriteVideoListReq {
+		UserID int64  `form:"user_id"`
+		Token  string `form:"token"`
+	}
+
+	FavoriteVideoListResp {
+		StatusCode int32   `json:"status_code"`
+		StatusMsg  string  `json:"status_msg"`
+		VideoList  []Video `json:"video_list"`
+	}
+)
+
+@server(
+	group: favorite
+	prefix: /douyin/favorite
+)
+service videoapi {
+	@doc "获取喜欢视频列表"
+	@handler FavoriteVideoList
+	get /list (FavoriteVideoListReq) returns (FavoriteVideoListResp)
+	
+	@doc "点赞操作"
+	@handler FavoriteAction
+	post /action (FavoriteActionReq) returns (FavoriteActionResp)
+}

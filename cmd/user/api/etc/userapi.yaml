@@ -1,0 +1,16 @@
+Name: user.api
+Host: 0.0.0.0
+Port: 8080
+Mode: dev
+Auth:
+  Secret: #自行配置
+  Expire: #自行配置
+Log:
+  ServiceName: user.api
+  Encoding: plain
+UserRpcConf:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: user.rpc
+  NonBlock: true

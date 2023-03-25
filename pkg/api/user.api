@@ -1,0 +1,172 @@
+syntax = "v1"
+
+info(
+	author: "skyenought"
+	desc: "user相关的接口"
+)
+import "base.api"
+type (
+	// form 是 url 对应的 query 参数
+	LoginReq {
+		Username string `form:"username"`
+		Password string `form:"password"`
+	}
+
+	LoginResp {
+		StatusCode int32  `json:"status_code"`
+		StatusMsg  string `json:"status_msg"`
+		UserID     int64  `json:"user_id"`
+		Token      string `json:"token"`
+	}
+
+	RegisterReq {
+		Username string `form:"username"`
+		Password string `form:"password"`
+	}
+
+	RegisterResp {
+		StatusCode int32  `json:"status_code"`
+		StatusMsg  string `json:"status_msg"`
+		UserID     int64  `json:"user_id"`
+		Token      string `json:"token"`
+	}
+
+	UserInfoReq {
+		UserID int64  `form:"user_id"`
+		Token  string `form:"token"`
+	}
+
+	UserInfoResp {
+		StatusCode int32  `json:"status_code"`
+		StatusMsg  string `json:"status_msg"`
+		User       User   `json:"user"`
+	}
+)
+
+type (
+	MsgChatListReq {
+		Token      string `form:"token"`
+		ToUserID   int64  `form:"to_user_id"`
+		PreMsgTime int64  `form:"pre_msg_time"`
+	}
+
+	MsgChatListResp {
+		StatusCode int32  `json:"status_code"`
+		StatusMsg  string `json:"status_msg"`
+		MsgList    []Msg  `json:"message_list"`
+	}
+
+	MsgActionReq {
+		Token      string `form:"token"`
+		ToUserID   int64  `form:"to_user_id"`
+		ActionType int32  `form:"action_type"`
+		Content    string `form:"content"`
+	}
+
+	MsgActionResp {
+		StatusCode int32  `json:"status_code"`
+		StatusMsg  string `json:"status_msg,optional"`
+	}
+)
+
+type (
+	// 用户关注
+	FollowActionReq {
+		UserID     int64  `form:"user_id,optional"`
+		Token      string `form:"token"`
+		ToUserID   int64  `form:"to_user_id"`
+		ActionType int32  `form:"action_type,options=1|2"`
+	}
+
+	FollowActionResp {
+		StatusCode int32  `json:"status_code"`
+		StatusMsg  string `json:"status_msg"`
+	}
+
+	// 用户关注列表
+	UserfollowlistReq {
+		UserID int64  `form:"user_id"`
+		Token  string `form:"token"`
+	}
+
+	UserfollowlistResp {
+		StatusCode int32  `json:"status_code"`
+		StatusMsg  string `json:"status_msg"`
+		UserList   []User `json:"user_list"`
+	}
+
+	// 用户粉丝列表
+	UserfanslistReq {
+		UserID int64  `form:"user_id"`
+		Token  string `form:"token"`
+	}
+
+	UserfanslistResp {
+		StatusCode int32  `json:"status_code"`
+		StatusMsg  string `json:"status_msg"`
+		UserList   []User `json:"user_list"`
+	}
+
+	UserfriendListReq {
+		UserID int64  `form:"user_id""`
+		Token  string `form:"token"`
+	}
+
+	UserfriendListResp {
+		StatusCode int32  `form:"status_code"`
+		StatusMsg  string `json:"status_msg"`
+		UserList   []User `json:"user_list"`
+	}
+)
+
+@server(
+	group: user
+	prefix: /douyin/user
+)
+service userapi {
+	@doc "user 登录"
+	@handler Login
+	post /login (LoginReq) returns (LoginResp)
+	
+	@doc "user 注册"
+	@handler Register
+	post /register (RegisterReq) returns (RegisterResp)
+	
+	@doc "获取 user 信息"
+	@handler UserInfo
+	get / (UserInfoReq) returns (UserInfoResp)
+}
+
+@server(
+	group: relation
+	prefix: /douyin/relation
+)
+service userapi {
+	@doc "用户关注操作"
+	@handler FollowAction
+	post /action (FollowActionReq) returns (FollowActionResp)
+	
+	@doc "用户关注列表"
+	@handler Userfollowlist
+	get /follow/list (UserfollowlistReq) returns (UserfollowlistResp)
+	
+	@doc "用户粉丝列表"
+	@handler Userfanslist
+	get /follower/list (UserfanslistReq) returns (UserfanslistResp)
+	
+	@doc "用户好友列表"
+	@handler Userfriendlist
+	get /friend/list (UserfriendListReq) returns (UserfriendListResp)
+}
+
+@server(
+	group: message
+	prefix: /douyin/message
+)
+service userapi {
+	@handler MsgAction
+	post /action (MsgActionReq) returns (MsgActionResp)
+	
+	@handler MsgChatList
+	get /chat (MsgChatListReq) returns (MsgChatListResp)
+}

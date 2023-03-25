@@ -1,0 +1,19 @@
+Name: video.rpc
+ListenOn: 0.0.0.0:8004
+Mode: dev
+Etcd:
+  Hosts:
+    - 0.0.0.0:2379
+  Key: video.rpc
+Log:
+  ServiceName: video.rpc
+  Encoding: plain
+Minio:
+  EndPoint:
+  UploadPath:
+# 腾讯云 OSS
+Oss:
+  BucketURL:
+  UpdatePath:
+Mysql:
+  DSN:

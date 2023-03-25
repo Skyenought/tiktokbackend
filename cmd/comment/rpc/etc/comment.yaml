@@ -1,0 +1,12 @@
+Name: comment.rpc
+ListenOn: 127.0.0.1:8006
+Mode: dev
+Log:
+  ServiceName: comment.rpc
+  Encoding: plain
+Etcd:
+  Hosts:
+    - 127.0.0.1:2379
+  Key: comment.rpc
+Mysql:
+  DSN:

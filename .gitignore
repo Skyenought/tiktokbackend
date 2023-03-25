@@ -1,0 +1,20 @@
+.idea
+/data
+# idea
+*.iml
+.DS_Store
+**/.DS_Store
+
+#deploy data
+data/*
+tmp
+
+/etc
+
+#config file
+
+# gitlab ci
+.cache
+
+#vscode
+.vscode/
