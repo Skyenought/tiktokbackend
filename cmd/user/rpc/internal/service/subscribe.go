@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-
+	
 	"github.com/Skyenought/tiktokbackend/cmd/user/rpc/internal/model"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
@@ -26,7 +26,7 @@ func (s *SubscribeService) Subscribe(fanID, videoAuthorID uint64) error {
 		}
 		// 更新粉丝数
 		if err := tx.Model(&model.User{}).Where("id = ?", videoAuthorID).
-			Update("follower_count", gorm.Expr("follower_count + ?", 1)).Error; err != nil {
+			Update("fan_count", gorm.Expr("fan_count + ?", 1)).Error; err != nil {
 			return err
 		}
 		// 更新关注数
@@ -47,7 +47,7 @@ func (s *SubscribeService) UnSubscribe(fanID, videoAuthorID uint64) error {
 		}
 		// 更新粉丝数
 		if err := tx.Model(&model.User{}).Where("id = ?", videoAuthorID).
-			Update("follower_count", gorm.Expr("follower_count - ?", 1)).Error; err != nil {
+			Update("fan_count", gorm.Expr("fan_count - ?", 1)).Error; err != nil {
 			return err
 		}
 		// 减少关注数

@@ -2,7 +2,6 @@
 package types
 
 type CommentActionReq struct {
-	UserID      int64  `form:"user_id"`
 	Token       string `form:"token"`
 	VideoID     int64  `form:"video_id"`
 	ActionType  int32  `form:"action_type,options=1|2"`

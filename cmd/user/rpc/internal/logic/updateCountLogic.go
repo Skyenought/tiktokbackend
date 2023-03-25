@@ -2,14 +2,14 @@ package logic
 
 import (
 	"context"
-
+	
 	"github.com/Skyenought/tiktokbackend/cmd/user/rpc/internal/model"
 	"github.com/Skyenought/tiktokbackend/pkg/errno"
 	"gorm.io/gorm"
-
+	
 	"github.com/Skyenought/tiktokbackend/cmd/user/rpc/internal/svc"
 	"github.com/Skyenought/tiktokbackend/cmd/user/rpc/userpc"
-
+	
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -54,15 +54,15 @@ func (l *UpdateCountLogic) UpdateCount(in *userpc.UpdateCountReq) (*userpc.Updat
 	// 1: 增加粉丝数 2: 减少粉丝数
 	switch in.FanType {
 	case 1:
-		if err := l.svcCtx.DB.Model(&model.User{}).Select("follower_count").
+		if err := l.svcCtx.DB.Model(&model.User{}).Select("fan_count").
 			Where("id = ?", in.UserID).
-			Update("follower_count", gorm.Expr("follower_count + ?", 1)).Error; err != nil {
+			Update("fan_count", gorm.Expr("fan_count + ?", 1)).Error; err != nil {
 			return nil, errno.ErrorHandle(errno.UpdateCountErrCode, "更新关注数失败: %+v", err)
 		}
 	case 2:
-		if err := l.svcCtx.DB.Model(&model.User{}).Select("follower_count").
+		if err := l.svcCtx.DB.Model(&model.User{}).Select("fan_count").
 			Where("id = ?", in.UserID).
-			Update("follower_count", gorm.Expr("follower_count - ?", 1)).Error; err != nil {
+			Update("fan_count", gorm.Expr("fan_count - ?", 1)).Error; err != nil {
 			return nil, errno.ErrorHandle(errno.UpdateCountErrCode, "更新关注数失败: %+v", err)
 		}
 	}

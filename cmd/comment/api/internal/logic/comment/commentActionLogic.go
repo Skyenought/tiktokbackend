@@ -2,16 +2,14 @@ package comment
 
 import (
 	"context"
-
+	
+	"github.com/Skyenought/tiktokbackend/cmd/comment/api/internal/svc"
+	"github.com/Skyenought/tiktokbackend/cmd/comment/api/internal/types"
 	"github.com/Skyenought/tiktokbackend/cmd/comment/rpc/commentrpc"
 	"github.com/Skyenought/tiktokbackend/cmd/video/rpc/videorpc"
 	"github.com/Skyenought/tiktokbackend/pkg/errno"
 	"github.com/Skyenought/tiktokbackend/pkg/jwtx"
-	"google.golang.org/grpc/status"
-
-	"github.com/Skyenought/tiktokbackend/cmd/comment/api/internal/svc"
-	"github.com/Skyenought/tiktokbackend/cmd/comment/api/internal/types"
-
+	
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -31,15 +29,11 @@ func NewCommentActionLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Com
 
 func (l *CommentActionLogic) CommentAction(req *types.CommentActionReq) (resp *types.CommentActionResp, err error) {
 	userID, err := jwtx.GetUserId(req.Token, l.svcCtx.Config.Auth.Secret)
-	if userID != req.UserID {
-		l.Logger.Errorf("用户信息有误")
-		return nil, status.Error(errno.AuthErrCode, "用户信息有误")
-	}
 	if err != nil {
 		return nil, errno.ErrorHandle(errno.AuthErrCode, "token解析失败: %+v", err.Error())
 	}
 	actionResp, err := l.svcCtx.CommentRpc.CommentAction(l.ctx, &commentrpc.CommentActionReq{
-		UserID:     req.UserID,
+		UserID:     userID,
 		VideoID:    req.VideoID,
 		ActionType: req.ActionType,
 		Content:    req.CommentText,
