@@ -2,16 +2,16 @@ package comment
 
 import (
 	"context"
-
+	
 	"github.com/Skyenought/tiktokbackend/cmd/comment/api/internal/pack"
 	"github.com/Skyenought/tiktokbackend/cmd/comment/rpc/commentrpc"
 	"github.com/Skyenought/tiktokbackend/cmd/user/rpc/userpc"
 	"github.com/Skyenought/tiktokbackend/pkg/errno"
 	"github.com/Skyenought/tiktokbackend/pkg/jwtx"
-
+	
 	"github.com/Skyenought/tiktokbackend/cmd/comment/api/internal/svc"
 	"github.com/Skyenought/tiktokbackend/cmd/comment/api/internal/types"
-
+	
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -44,7 +44,7 @@ func (l *CommentListLogic) CommentList(req *types.CommentListReq) (resp *types.C
 	for _, comment := range listResp.CommentList {
 		c := pack.CommentConvHTTP(comment)
 		infoResp, err := l.svcCtx.UserRpc.UserInfo(l.ctx, &userpc.UserInfoReq{
-			UserID:     c.ID,
+			UserID:     c.User.ID,
 			FromUserID: fromUserID,
 		})
 		if err != nil {
