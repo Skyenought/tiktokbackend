@@ -42,7 +42,7 @@
 
 ## 运行项目
 
-1. 填写 cmd 下各个服务的配置文件, 将 mysql, etcd 的地址填写正确
+1. 填写 cmd 下各个服务的配置文件, 将 mysql, etcd 的地址填写正确. 本项目使用 gorm AutoMigrate 进行数据库迁移, 所以不需要手动导入 SQL
 ```yaml
 # cmd/comment/etc/comment-api.yaml
 

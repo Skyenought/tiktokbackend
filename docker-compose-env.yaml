@@ -8,9 +8,9 @@ services:
       - "9071:9071"
     environment:
       MINIO_ROOT_USER: minio          #管理后台用户名
-      MINIO_ROOT_PASSWORD: Ljy2002319 #管理后台密码，最小8个字符
+      MINIO_ROOT_PASSWORD: minio #管理后台密码，最小8个字符
     volumes:
-      - /home/minio/data:/data
+      - ./data/minio/data:/data
       - /etc/localtime:/etc/localtime
     network_mode: bridge
     command: server  --address :9071 --console-address :9070 /data

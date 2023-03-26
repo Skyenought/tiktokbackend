@@ -22,6 +22,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	}
 	db.AutoMigrate(&model.User{})
 	db.AutoMigrate(&model.Subscribe{})
+	db.AutoMigrate(&model.Msg{})
 	return &ServiceContext{
 		Config:   c,
 		DB:       db,

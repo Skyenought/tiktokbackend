@@ -28,4 +28,6 @@ rm:
 fmt:
 	gofumpt -l -w .                                                                                                                                                ─╯
 
+modd:
+	modd
 

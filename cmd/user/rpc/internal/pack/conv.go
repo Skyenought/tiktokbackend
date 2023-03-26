@@ -31,3 +31,23 @@ func UsersConvProto(ms []model.User, isSub bool) []*userservice.User {
 	}
 	return ps
 }
+
+
+// MsgConvProto converts model.Msg to userservice.Msg
+func MsgConvProto(m model.Msg) userservice.Msg {
+	return userservice.Msg{
+		FromUserID: int64(m.FromUserID),
+		ToUserID:   int64(m.ToUserID),
+		Content:    m.Content,
+	}
+}
+
+// MsgsConvProto converts []model.Msg to []*userservice.Msg
+func MsgsConvProto(ms []model.Msg) []*userservice.Msg {
+	var ps []*userservice.Msg
+	for _, m := range ms {
+		msg := MsgConvProto(m)
+		ps = append(ps, &msg)
+	}
+	return ps
+}
